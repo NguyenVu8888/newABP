@@ -1,0 +1,143 @@
+<form [formGroup]="formAttributeProduct" (ngSubmit)="saveChange()" #pnl>
+  <p-panel header="Chi tiết thuộc tính">
+    <div class="formgrid grid">
+      <div class="field col-12">
+        <label for="name" class="">Nhãn</label>
+        <input
+          id="name"
+          pInputText
+          type="text"
+          placeholder=""
+          formControlName="label"
+          class="w-full"
+        />
+        <div
+          style="color: red; margin-left: 20px"
+          *ngIf="
+            formAttributeProduct.controls['label'].invalid &&
+            (formAttributeProduct.controls['label'].touched ||
+              formAttributeProduct.controls['label'].dirty ||
+              isSubmited)
+          "
+        >
+          <span *ngIf="formAttributeProduct.controls['label'].errors?.['required']">
+            this is required</span
+          >
+          <span *ngIf="formAttributeProduct.controls['label'].errors?.['maxlength']">
+            this maxlength is 25</span
+          >
+        </div>
+      </div>
+
+      <div class="field col-12">
+        <label for="code" class="">Code</label>
+        <input
+          id="code"
+          pInputText
+          type="text"
+          placeholder=""
+          formControlName="code"
+          class="w-full"
+        />
+        <div
+          style="color: red; margin-left: 20px"
+          *ngIf="
+            formAttributeProduct.controls['code'].invalid &&
+            (formAttributeProduct.controls['code'].touched ||
+              formAttributeProduct.controls['code'].dirty ||
+              isSubmited)
+          "
+        >
+          <span *ngIf="formAttributeProduct.controls['code'].errors?.['required']">
+            this is required</span
+          >
+        </div>
+      </div>
+
+      <div class="field col-12">
+        <label for="dataType" class="">Kiểu dữ liệu</label>
+        <p-dropdown
+          [options]="dataTypes"
+          formControlName="dataType"
+          placeholder="Chọn kiểu dữ liệu"
+          [showClear]="true"
+          autoWidth="false"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+        <div
+          style="color: red; margin-left: 20px"
+          *ngIf="
+            formAttributeProduct.controls['dataType'].invalid &&
+            (formAttributeProduct.controls['dataType'].touched ||
+              formAttributeProduct.controls['dataType'].dirty ||
+              isSubmited)
+          "
+        >
+          <span *ngIf="formAttributeProduct.controls['dataType'].errors?.['required']">
+            this is required</span
+          >
+        </div>
+      </div>
+
+      <div class="field col-12">
+        <label for="SortOrder" class="">Vị trí</label>
+        <p-inputNumber id="SortOrder" formControlName="sortOrder"></p-inputNumber>
+        <div
+          style="color: red; margin-left: 20px"
+          *ngIf="
+            formAttributeProduct.controls['sortOrder'].invalid &&
+            (formAttributeProduct.controls['sortOrder'].touched ||
+              formAttributeProduct.controls['sortOrder'].dirty ||
+              isSubmited)
+          "
+        >
+          <span *ngIf="formAttributeProduct.controls['sortOrder'].errors?.['required']">
+            this is required</span
+          >
+        </div>
+      </div>
+
+      <div class="field-checkbox col-12 md:col-3">
+        <p-checkbox formControlName="visibility" binary="true" id="visibility"></p-checkbox>
+        <label for="visibility">Hiển thị</label>
+      </div>
+      <div class="field-checkbox col-12 md:col-3">
+        <p-checkbox formControlName="isActive" binary="true" id="isActive"></p-checkbox>
+        <label for="isActive">Kích hoạt</label>
+      </div>
+      <div class="field-checkbox col-12 md:col-3">
+        <p-checkbox formControlName="isRequired" binary="true" id="isRequired"></p-checkbox>
+        <label for="isRequired">Bắt buộc nhập</label>
+      </div>
+      <div class="field-checkbox col-12 md:col-3">
+        <p-checkbox formControlName="isUnique" binary="true" id="isUnique"></p-checkbox>
+        <label for="isUnique">Duy nhất</label>
+      </div>
+
+      <div class="field col-12">
+        <label for="note" class="block">Ghi chú</label>
+        <textarea id="note" pInputTextarea class="w-full" formControlName="note"></textarea>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      @if (btnEdit) {
+      <p-button
+        label="Thêm mới"
+        [disabled]="formAttributeProduct.invalid"
+        (click)="saveChange()"
+      ></p-button>
+      }@else {
+      <p-button
+        label="Sửa"
+        [disabled]="formAttributeProduct.invalid"
+        (click)="saveChange()"
+      ></p-button>
+      }
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

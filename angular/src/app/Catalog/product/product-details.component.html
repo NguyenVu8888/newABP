@@ -1,0 +1,223 @@
+<form [formGroup]="formProduct" (ngSubmit)="saveChange()" #pnl>
+  <p-panel header="Them moi san pham">
+    <div class="formgrid grid">
+      <div class="field col-12">
+        <label for="name" class="">Name</label>
+        <input
+          id="name"
+          pInputText
+          type="text"
+          placeholder=""
+          formControlName="name"
+          class="w-full"
+          (keyup)="generateSlug()"
+        />
+        <div
+          style="color: red; margin-left: 20px"
+          *ngIf="
+            formProduct.controls['name'].invalid &&
+            (formProduct.controls['name'].touched ||
+              formProduct.controls['name'].dirty ||
+              isSubmited)
+          "
+        >
+          <span *ngIf="formProduct.controls['name'].errors?.['required']"> this is required</span>
+          <span *ngIf="formProduct.controls['name'].errors?.['maxlength']">
+            this maxlength is 25</span
+          >
+        </div>
+      </div>
+
+      <div class="field col-12">
+        <label for="code" class="">Code</label>
+        <input
+          id="code"
+          pInputText
+          type="text"
+          placeholder=""
+          formControlName="code"
+          class="w-full"
+        />
+        <div
+          style="color: red; margin-left: 20px"
+          *ngIf="
+            formProduct.controls['code'].invalid &&
+            (formProduct.controls['code'].touched ||
+              formProduct.controls['code'].dirty ||
+              isSubmited)
+          "
+        >
+          <span *ngIf="formProduct.controls['code'].errors?.['required']"> this is required</span>
+        </div>
+      </div>
+      <div class="field col-12">
+        <label for="manufacturerId" class="block"
+          >Nhà sản xuất <span class="required">*</span></label
+        >
+        <p-dropdown
+          [options]="manufacturers"
+          formControlName="manufictureId"
+          placeholder="Chọn nhà sản xuất"
+          [showClear]="true"
+        ></p-dropdown>
+        <!-- <label for="manufictureId" class="">ManufictureId</label>
+        <input
+          id="manufictureId"
+          pInputText
+          type="text"
+          placeholder=""
+          formControlName="manufictureId"
+          class="w-full"
+        /> -->
+        <div
+          style="color: red; margin-left: 20px"
+          *ngIf="
+            formProduct.controls['manufictureId'].invalid &&
+            (formProduct.controls['manufictureId'].touched ||
+              formProduct.controls['manufictureId'].dirty ||
+              isSubmited)
+          "
+        >
+          <span *ngIf="formProduct.controls['manufictureId'].errors?.['required']">
+            this is required</span
+          >
+        </div>
+      </div>
+
+      <div class="field col-12">
+        <label for="productType" class="block">Loại sản phẩm <span class="required">*</span></label>
+        <p-dropdown
+          [options]="productTypes"
+          formControlName="ProductType"
+          placeholder="Chọn loại"
+          [showClear]="true"
+        ></p-dropdown>
+        <div
+          style="color: red; margin-left: 20px"
+          *ngIf="
+            formProduct.controls['ProductType'].invalid &&
+            (formProduct.controls['ProductType'].touched ||
+              formProduct.controls['ProductType'].dirty ||
+              isSubmited)
+          "
+        >
+          <span *ngIf="formProduct.controls['ProductType'].errors?.['required']">
+            this is required</span
+          >
+        </div>
+      </div>
+
+      <div class="field col-12">
+        <label for="SKU" class="">SKU</label>
+        <input
+          id="SKU"
+          pInputText
+          type="text"
+          placeholder=""
+          formControlName="SKU"
+          class="w-full"
+        />
+        <div
+          style="color: red; margin-left: 20px"
+          *ngIf="
+            formProduct.controls['SKU'].invalid &&
+            (formProduct.controls['SKU'].touched || formProduct.controls['SKU'].dirty || isSubmited)
+          "
+        >
+          <span *ngIf="formProduct.controls['SKU'].errors?.['required']"> this is required</span>
+        </div>
+      </div>
+
+      <div class="field col-12">
+        <label for="SortOrder" class="">Vị trí</label>
+        <p-inputNumber id="SortOrder" formControlName="sortOrder"></p-inputNumber>
+        <div
+          style="color: red; margin-left: 20px"
+          *ngIf="
+            formProduct.controls['sortOrder'].invalid &&
+            (formProduct.controls['sortOrder'].touched ||
+              formProduct.controls['sortOrder'].dirty ||
+              isSubmited)
+          "
+        >
+          <span *ngIf="formProduct.controls['sortOrder'].errors?.['required']">
+            this is required</span
+          >
+        </div>
+      </div>
+
+      <div class="field col-12">
+        <p-checkbox formControlName="visibility" binary="true" inputId="visibility"></p-checkbox>
+        <label for="visibility">Hiển thị</label>
+      </div>
+      <div class="field col-12">
+        <p-checkbox formControlName="isActive" binary="true" inputId="isActive"></p-checkbox>
+        <label for="isActive"> Hoạt động</label>
+      </div>
+      <div class="field col-12">
+        <label for="categoryId" class="">Loại</label>
+        <p-dropdown
+          [options]="productCategorise"
+          formControlName="categoryId"
+          optionLabel="name"
+          [showClear]="true"
+          placeholder="Chọn loại sản phẩm"
+        ></p-dropdown>
+        <div
+          style="color: red; margin-left: 20px"
+          *ngIf="
+            formProduct.controls['categoryId'].invalid &&
+            (formProduct.controls['categoryId'].touched ||
+              formProduct.controls['categoryId'].dirty ||
+              isSubmited)
+          "
+        >
+          <span *ngIf="formProduct.controls['categoryId'].errors?.['required']">
+            this is required</span
+          >
+        </div>
+      </div>
+
+      <div class="field col-12">
+        <label for="seoMetaDescription" class="">SeoMetaDescription</label>
+        <textarea
+          id="seoMetaDescription"
+          rows="5"
+          cols="30"
+          pInputTextarea
+          formControlName="seoMetaDescription"
+          class="w-full"
+        ></textarea>
+      </div>
+      <div class="field col-12">
+        <label for="descreption" class="">Descreption</label>
+        <p-editor formControlName="descreption" [style]="{ height: '320px' }"></p-editor>
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="ThumbnailImage" class="">Ảnh đại diện</label>
+        <input id="ThumbnailImage" type="file" (change)="onFileChange($event)" class="w-full" />
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="thumbnailPicture" class="">Ảnh đại diện</label>
+        <p-image
+          [src]="ThumbnailImage"
+          [alt]="selectedEntity.name"
+          width="250"
+          [preview]="true"
+        ></p-image>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      @if (btnEdit) {
+      <p-button label="Thêm mới" [disabled]="formProduct.invalid" (click)="saveChange()"></p-button>
+      }@else {
+      <p-button label="Sửa" [disabled]="formProduct.invalid" (click)="saveChange()"></p-button>
+      }
+    </ng-template>
+
+    <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+      <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+    </p-blockUI>
+  </p-panel>
+</form>

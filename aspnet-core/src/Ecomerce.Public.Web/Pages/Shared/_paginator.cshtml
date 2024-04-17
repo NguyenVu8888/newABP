@@ -1,0 +1,57 @@
+﻿
+@model Ecomerce.Public.PagedResultBase
+@{
+    var urlTemplate = Url.Action() + "?page={0}";
+    var request = ViewContext.HttpContext.Request;
+    foreach (var key in request.Query.Keys)
+    {
+        if (key == "page")
+        {
+            continue;
+        }
+        if (request.Query[key].Count > 1)
+        {
+            foreach (var item in (string[])request.Query[key])
+            {
+                urlTemplate += "&" + key + "=" + item;
+            }
+        }
+        else
+        {
+            urlTemplate += "&" + key + "=" + request.Query[key];
+        }
+    }
+    var startIndex = Math.Max(Model.CurrentPage - 5, 1);
+    var finishIndex = Math.Min(Model.CurrentPage + 5, Model.PageCount);
+}
+
+<div class="pagination d-flex justify-content-center mt-5">
+    @if (Model.PageCount > 0)
+    {
+        <ul class="pagination">
+            @if (Model.CurrentPage != startIndex)
+            {
+                <a  class="rounded" href="@urlTemplate.Replace("{0}", Model.PageCount.ToString())" aria-label="Trước" title="Trang @Model.CurrentPage.ToString()">&laquo;</a>
+            }
+            @for (var i = startIndex; i <= finishIndex; i++)
+            {
+                if (i == Model.CurrentPage)
+                {
+                   
+                    <a href="#" class="active rounded">@i</a>
+                }
+                else
+                {
+                    <a  class="rounded" href="@urlTemplate.Replace("{0}", i.ToString())" title="Trang @i.ToString()">@i</a>
+                }
+            }
+
+            @if (Model.CurrentPage != finishIndex)
+            {
+                <a class="rounded" href="@urlTemplate.Replace("{0}", Model.PageCount.ToString())" aria-label="Sau" title="@Model.PageCount.ToString()">&raquo;</a>
+            }
+
+        </ul>
+    }
+
+</div>

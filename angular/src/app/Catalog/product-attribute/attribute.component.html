@@ -1,0 +1,118 @@
+<p-panel header="Danh sách thuộc tính">
+  <!-- filter-->
+  <div class="grid">
+    <div class="col-4">
+      <p-button icon="pi pi-plus" label="Thêm mới" (onClick)="showAddModel()"></p-button>
+      <p-button
+        label="Delete Multiple"
+        [rounded]="true"
+        *ngIf="selectedItems.length > 0"
+        icon="pi pi-minus"
+        severity="secondary"
+        (onClick)="DeleteListItems()"
+      ></p-button>
+    </div>
+
+    <div class="col-8">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText [(ngModel)]="keyword" placeholder="Search by label" />
+      </span>
+
+      <p-button
+        label="Tìm kiếm"
+        [rounded]="true"
+        severity="secondary"
+        (onClick)="loadData()"
+      ></p-button>
+    </div>
+  </div>
+
+  <!-- table-->
+
+  <div #pnl class="card">
+    <p-table
+      [value]="items"
+      [tableStyle]="{ 'min-width': '60rem' }"
+      [(selection)]="selectedItems"
+      selectionMode="multiple"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">Attributes</div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+          <th>Mã</th>
+          <th>Kiểu dữ liệu</th>
+          <th>Nhãn</th>
+          <th>Thứ tự</th>
+          <th>Hiển thị</th>
+          <th>Kích hoạt</th>
+          <th>Tính độc nhất</th>
+          <th>Bắt buộc</th>
+          <th>Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr [pSelectableRow]="row">
+          <td style="width: 10px">
+            <span class="ui-column-title"></span>
+            <p-tableCheckbox [value]="row"></p-tableCheckbox>
+          </td>
+          <td>{{ row.code }}</td>
+          <td>{{ getAttributeTypeName(row.type) }}</td>
+          <td>{{ row.label }}</td>
+          <td>{{ row.sortOrder }}</td>
+          <td>
+            <p-badge *ngIf="row.vissibility == 1" severity="success" value="Hiển thị"></p-badge>
+            <p-badge *ngIf="row.vissibility == 0" severity="danger" value="Ẩn"></p-badge>
+          </td>
+          <td>
+            <p-badge *ngIf="row.isRequired == 1" severity="success" value="Có"></p-badge>
+            <p-badge *ngIf="row.isRequired == 0" severity="danger" value="Không"></p-badge>
+          </td>
+          <td>
+            <p-badge *ngIf="row.isUnique == 1" severity="success" value="Có"></p-badge>
+            <p-badge *ngIf="row.isUnique == 0" severity="danger" value="Không"></p-badge>
+          </td>
+          <td>
+            <p-badge *ngIf="row.isActive == 1" value="Kích hoạt" severity="success"></p-badge>
+            <p-badge *ngIf="row.isActive == 0" value="Khoá" severity="danger"></p-badge>
+          </td>
+          <td>
+            <p-button
+              icon="pi pi-file-edit"
+              label="sua"
+              (onClick)="showEditModel(row.id)"
+            ></p-button>
+            <p-button
+              icon="pi pi-delete-left"
+              label="Xoa"
+              (onClick)="DeleteAttribute(row.id)"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+          In total there are {{ totalCount }} Attributes.
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <!-- page-->
+
+  <p-paginator
+    [rows]="maxResultCount"
+    [totalRecords]="totalCount"
+    [rowsPerPageOptions]="[10, 20, 30, 40, 50]"
+    (onPageChange)="pageChanged($event)"
+  ></p-paginator>
+  <!-- block ui-->
+
+  <p-blockUI [blocked]="blockedPanel" [target]="pnl">
+    <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+  </p-blockUI>
+</p-panel>

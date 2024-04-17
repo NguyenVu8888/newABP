@@ -1,0 +1,35 @@
+﻿@* @model Ecommerce.Public.Catalogs.Products.ProductInListDto
+@using Ecommerce.Public.Catalogs.Products;
+@inject IProductsAppService _productsAppService;
+@{
+    var url = $"/products/{Model.CategoryId}/{Model.Code}.html";
+   // var fileContent = await _productsAppService.GetThumbnailImageAsync(Model.ThumbnailPicture);
+   // var base64Image = ecommerce.Helpers.ImageHelper.ShowBase64(Model.ThumbnailPicture, fileContent);
+
+} *@
+
+@{
+    var CategoryID = "13FEABDF-F0EB-25FE-473D-3A11B992F6D4";
+    var productCode = "qwqw";
+    var productID = "70B85647-FEC7-447B-B7EF-9115653B4FD9";
+}
+
+
+<div class="col-md-6 col-lg-4 col-xl-3">
+    <div class="rounded position-relative fruite-item">
+        <div class="fruite-img">
+            <a href="/products/@(CategoryID)/@(productCode).html"> <img src="/assets/img/fruite-item-5.jpg" class="img-fluid w-100 rounded-top" alt=""></a>
+        </div>
+        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
+        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+           @*  <h4>@Model.Name</h4>
+            <p>@Model.ProductType</p> *@
+            <h4>Grapes</h4>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
+            <div class="d-flex justify-content-between flex-lg-wrap">
+                <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
+                <a href="/shop-cart.html?action=add&id=@productID" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+            </div>
+        </div>
+    </div>
+</div>
